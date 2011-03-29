@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            Release Notes for Ext JS 3.3.2
+        </title>
+        <style type="text/css">
+
+        * { margin: 0; padding: 0; }
+        body { 
+        color: #333; 
+        font-family: Helvetica, Arial, sans-serif; 
+        font-size: 12px;
+        padding: 0 40px 40px; 
+        width: 800px;
+        margin: 0 auto;
+        }
+        h1, h2, h3 { 
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+        font-weight: 600; 
+        margin: 1em 0;
+        }
+        h1 { font-size: 23px; }
+        h2 { font-size: 16px; margin-top: 1em; }
+        h3 { font-size: 14px; }
+        ul li { padding: 2px 0; font-size: 13px; }
+        ul ul li { font-size: 12px; font-weight: normal; }
+        .doc { color: blue; }
+        .change { color: #196cb4; }
+        .new { color: #6e7a32; }
+        ul { padding: .1em 1.5em; }
+        .notes { color: #777; }
+        a { color: rgb(4, 100, 187); }
+        a:hover { color: rgb(28, 65, 124); }
+        </style>
+    </head>
+    <body>
+        <p>
+            <a href="http://www.sencha.com/" id="logo" name="logo"><img src="http://www.sencha.com/assets/images/logo-sencha-sm.png" alt=""></a>
+        </p>
+        <h1>
+            Release Notes for <a href="http://www.sencha.com/products/js/">Ext JS</a> 3.3.2
+        </h1>
+        <p class="notes">
+            Release Date: March 7, 2011<br>
+            Current Version: 3.3.2 (rev 7373/277)<br>
+            Previous Version: 3.3.1 (rev 7296/265)
+        </p>
+        <h2 class="new">
+            Changes
+        </h2>
+        <h3>
+            Window
+        </h3>
+        <ul>
+            <li>Fix an issue where the window would get stuck in a dragging state if you hit the Esc key while dragging.</li>
+            <li>Shadow will not be counted when window is constrain to it's header.</li>
+        </ul>
+        <h3>
+            Menu
+        </h3>
+        <ul>
+            <li>Sub-menu item ref's will now resolve properly.</li>
+            <li>Fix an issue where menu item timeouts weren't cleared on destruction.</li>
+        </ul>
+        <h3>
+            Button
+        </h3>
+        <ul>
+            <li>Fix an issue of having ref's bubble up from menu items inside of a menu that's attached to a button.</li>
+            <li>CycleButton's setActiveItem method now honors the suppressEvent argument.</li>
+        </ul>
+        <h3>
+            Form/Field
+        </h3>
+        <ul>
+            <li>Correct issue with setValue using custom decimal separator.</li>
+            <li>Fix issue in getValue causing updateRecord exception.</li>
+            <li>Fix an issue with the safe parsing option, it doesn't detect all of the formats that have the hour info.</li>
+            <li>Allow an apostrophe for the email vtype.</li>
+            <li>Resolve an issue with forms where it doesn't try check if the response is valid json.</li>
+            <li>CheckBox: Fixes an issue when setting a value when the inputValue is '0'.</li>
+        </ul>
+        <h3>
+            Data
+        </h3>
+        <ul>
+            <li>Prevent headers from being replaced when default headers are specified in Connection.</li>
+            <li>Fix XmlReader under IE 6.0.</li>
+            <li>IE no longer errors when decoding empty JSON string.</li>
+            <li>Correct issue with JsonWriter response format for create.</li>
+            <li>Fix an issue where using the "add" option on load will cause the record to not be registered with the store.</li>
+            <li>Fix issue with DataReader.onCreateRecords not remapping for multiple records.</li>
+            <li>Fix issue with updateRecord not checking for null value from getValue().</li>
+        </ul>
+        <h3>
+            Grid
+        </h3>
+        <ul>
+            <li>Fix issue in updateLockedWidth to allow locking area to take up the entire visible grid area.</li>
+            <li>Fix issue with GridFilters throwing an error when locking a column from the header menu.</li>
+            <li>Include scope in getColumnData.</li>
+            <li>Ensure height is not negative for IE in LockingGridView.</li>
+            <li>Added the ability to use the CellSelectionModel with the PivotGrid.</li>
+            <li>Fix an issue when grouping views would not behave correctly when the group string contains html chars.</li>
+        </ul>
+        <h3>
+            Date
+        </h3>
+        <ul>
+            <li>Added missing 'isu' chars for formatContainsHourInfo.</li>
+        </ul>
+        <h3>
+            History
+        </h3>
+        <ul>
+            <li>Fixed an issue where history in non IE browsers wouldn't work when in an iframe. Also corrected an issue with getToken to normalize the tokens in Firefox.</li>
+        </ul>
+        <h3>
+            CSS
+        </h3>
+        <ul>
+            <li>Add missing # for color definitions in access theme.</li>
+            <li>Fix webkit in strict mode to correct height for .x-small-editor .x-form-text.</li>
+        </ul>
+        <h3>
+            UX
+        </h3>
+        <ul>
+            <li>Calendar: Corrects issue with view not properly offsetting.</li>
+            <li>FileUploadField: Check if rendered before resetting.</li>
+            <li>RowEditor: Fire a canceledit event if no changes were made.</li>
+            <li>SelectBox: Fixes issue with ux.SelectBox select event hitting twice.</li>
+            <li>MultiSelect: Add line to use correct css styling for selected items.</li>
+        </ul>
+        <h3>
+            Locale
+        </h3>
+        <ul>
+            <li>Add decimalSeparator/decimalPrecision properties to ext-lang-it.js.</li>
+        </ul>
+        <h3>
+            Misc
+        </h3>
+        <ul>
+            <li>Fix broken Element.getAttribute in IE8.</li>
+            <li>Fix invalid regular expression with new Webkit builds (escape -).</li>
+            <li>DomQuery now supports '[', ']' in name attribute for Radio/Radiogroup form elements.</li>
+            <li>Fix issue with IE in not preventing default events</li>
+            <li>Fix an issue with getAttribute in IE7 on tables.</li>
+            <li>Fix up incorrect bracketing in Element.fx.</li>
+            <li>Added support for space-key in Ext.KeyNav.</li>
+            <li>Fix an issue where large scrollable elements can have the not visible parts registered as a drop target.</li>
+            <li>Improve memory cleanup in IE. (Unload for EventManager, DDCore, and SWFObject)</li>
+            <li>Fixed a typo in the adjustPosition method.</li>
+        </ul>
+    </body>
+</html>
