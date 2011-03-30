@@ -58,7 +58,10 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  caching     enable or disable internal caching                 FALSE
  */
 Kohana::init(array(
-	'base_url'   => '/',
+    'base_url'	    => 'http://ecart/',
+    'index_file'    => '',
+    'errors'	    => TRUE,
+    'profile'	    => TRUE
 ));
 
 /**
@@ -86,6 +89,7 @@ Kohana::modules(array(
 	// 'pagination' => MODPATH.'pagination', // Paging of results
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+	'minify'	    => MODPATH.'minify',	// Minifies JS/CSS files
 	'debug-toolbar' => MODPATH.'debug-toolbar',
 	));
 
@@ -105,6 +109,11 @@ Route::set('default', '(<controller>(/<action>(/<id>)))')
 		'controller' => 'main',
 		'action' => 'index',
 	));
+	
+/**
+ * Set the production status
+ */
+define('IN_PRODUCTION', FALSE);
 	
 if ( ! defined('SUPPRESS_REQUEST'))
 {

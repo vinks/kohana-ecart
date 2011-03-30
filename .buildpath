@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="modules/orm/classes"/>
+	<buildpathentry kind="src" path="modules/debug-toolbar/classes"/>
+	<buildpathentry kind="src" path="modules/database/classes"/>
+	<buildpathentry kind="src" path="modules/cache/config"/>
+	<buildpathentry kind="src" path="modules/oauth/views/oauth/twitter"/>
+	<buildpathentry kind="src" path="modules/database/config"/>
+	<buildpathentry kind="src" path="modules/rauth/config"/>
+	<buildpathentry kind="src" path="modules/cache/classes"/>
+	<buildpathentry kind="src" path="modules/minify/config"/>
+	<buildpathentry kind="src" path="modules/oauth/config"/>
+	<buildpathentry kind="src" path="modules/codebench"/>
+	<buildpathentry kind="src" path="modules/rauth/classes"/>
+	<buildpathentry kind="src" path="system"/>
+	<buildpathentry kind="src" path="modules/image/classes"/>
+	<buildpathentry excluding="js/ext-3.3.2/|js/jquery/" kind="src" path="public_html"/>
+	<buildpathentry kind="src" path="modules/image/config"/>
+	<buildpathentry kind="src" path="modules/auth/classes"/>
+	<buildpathentry kind="src" path="modules/debug-toolbar/config"/>
+	<buildpathentry kind="src" path="modules/userguide"/>
+	<buildpathentry kind="src" path="modules/auth/config"/>
+	<buildpathentry kind="src" path="application"/>
+	<buildpathentry kind="src" path="modules/unittest"/>
+	<buildpathentry kind="src" path="modules/cache/tests/cache"/>
+	<buildpathentry kind="src" path="modules/orm/config"/>
+	<buildpathentry kind="src" path="modules/pagination/classes"/>
+	<buildpathentry kind="src" path="modules/oauth/classes"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry kind="src" path="modules/debug-toolbar/views"/>
+	<buildpathentry kind="src" path="modules/pagination/config"/>
+	<buildpathentry kind="src" path="modules/minify/classes"/>
+	<buildpathentry kind="src" path="modules/pagination/views/pagination"/>
+</buildpath>

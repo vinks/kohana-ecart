@@ -5,11 +5,11 @@ return array
     'default' => array(
 	'type'       => 'postgresql',
 	'connection' => array(
-	    'hostname'   => '192.168.1.10',
+	    'hostname'   => '192.168.0.159',
 	    'username'   => 'postgres',
 	    'password'   => 'postgres',
 	    'persistent' => FALSE,
-	    'database'   => 'ecart',
+	    'database'   => 'axis',
 	    //'database'   => 'test_install',
 	),
 	'primary_key'	=> 'id',
