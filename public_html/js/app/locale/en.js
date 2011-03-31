@@ -5,7 +5,8 @@ Ext.ns('Lng');
 
 Lng.Global = {
     appname : 'Kohana Ecart',
-    vendor  : ''
+    vendor  : '',
+    home    : 'Home'
 };
 
 Ext.ns('Lng.Common');
@@ -14,6 +15,7 @@ Lng.Common.buttonText = {
     btn_add		: 'Add',
     btn_chancel		: 'Chancel',
     btn_delete		: 'Delete',
+    btn_edit		: 'Edit',
     btn_submit		: 'Submit',
     btn_collapse	: 'Collapse All',
     btn_expand		: 'Expand All',
@@ -107,19 +109,12 @@ Lng.Toolbar.messageText = {
     logout		: 'Logout'
 };
 
+Ext.ns('Lng.Catalog');
 
-/*
- * Tabs language vars
- */
-Ext.ns('Lng.Tab');
-
-Lng.Tab.titleText = {
-    home		: 'Home',
-    products_catalog	: 'Products Catalog',
-    products_attributes	: 'Product Attributes',
-    product_value_sets	: 'Value Sets',
-    product_brands	: 'Product Brands',
-    orders		: 'Orders',
-    marketing_discounts	: 'Discounts',
-    customers_manage	: 'Manage Customers'
+Lng.Catalog.Titles = {
+    
+    catalog		: 'Products Catalog',
+    categories		: 'Product Categories',
+    products		: 'Products'
+    
 };

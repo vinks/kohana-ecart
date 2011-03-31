@@ -21,7 +21,7 @@ Ext.onReady(function() {
 	    region	    : 'center',
 	    items	    : [{
 		id	: 'default_tab',
-		title	: Lng.Tab.titleText.home,
+		title	: Lng.Global.home,
 		border	: false,
 		layout	: 'fit',
 		region	: 'center',

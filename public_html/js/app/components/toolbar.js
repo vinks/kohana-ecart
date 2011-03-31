@@ -17,7 +17,9 @@ App.Toolbar.Panel = Ext.extend(Ext.Panel, {
 		ref	: '../btn_cms',
             	menu: [{
 		    text    : Lng.Toolbar.buttonTitle.categories_pages,
-		    handler : function (f) {}
+		    handler : function (f) {
+			
+		    }
             	},{
 		    text    : Lng.Toolbar.buttonTitle.static_blocks,
 		    handler : function (f) {}
@@ -37,7 +39,9 @@ App.Toolbar.Panel = Ext.extend(Ext.Panel, {
 		ref	: '../btn_catalog',
             	menu: [{
 		    text    : Lng.Toolbar.buttonTitle.product_catalog,
-		    handler : function (f) {}
+		    handler : function (f) {
+			addTab(Lng.Catalog.Titles.catalog, 'catalog', 'catalogpanel');
+		    }
             	},{
 		    text    : Lng.Toolbar.buttonTitle.product_attributes,
 		    handler : function (f) {}

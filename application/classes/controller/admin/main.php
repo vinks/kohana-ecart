@@ -17,8 +17,11 @@ class Controller_Admin_Main extends Controller_Admin_Base
 	    'js/ext-ux/Ext.ux.panel.DDTabPanel.js',
 	    'js/ext-ux/Ext.ux.TabCloseMenu.js',
 	    'js/ext-' . $this->extversion . '/examples/ux/TabScrollerMenu.js',
+	    'js/app/functions.js',
+	    'js/app/base.js',
+	    'js/app/components/catalog.js',
 	    'js/app/components/toolbar.js',
-	    'js/app/init.js'
+	    'js/app/init.js',
 	);
     }
 }

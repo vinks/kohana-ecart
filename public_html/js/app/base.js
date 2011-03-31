@@ -44,6 +44,20 @@ App.AddButton = Ext.extend(Ext.Button, {
 // Register xtype
 Ext.reg('addbutton', App.AddButton);
 
+/**
+ * Menu Add Button
+ */
+App.MenuAddButton = Ext.extend(Ext.menu.Item, {
+    text		: Lng.Common.buttonText.btn_add,
+    iconCls		: 'icon-add',
+    initComponent:function() {
+        App.MenuAddButton.superclass.initComponent.apply(this, arguments);
+    } // eo function initComponent
+}); // eo extend
+//
+// Register xtype
+Ext.reg('menuaddbutton', App.MenuAddButton);
+
 
 /**
  * Edit Button
@@ -58,6 +72,20 @@ App.EditButton = Ext.extend(Ext.Button, {
 //
 // Register xtype
 Ext.reg('editbutton', App.EditButton);
+
+/**
+ * Menu Edit Button
+ */
+App.MenuEditButton = Ext.extend(Ext.menu.Item, {
+    text		: Lng.Common.buttonText.btn_edit,
+    iconCls		: 'icon-edit',
+    initComponent:function() {
+        App.MenuEditButton.superclass.initComponent.apply(this, arguments);
+    } // eo function initComponent
+}); // eo extend
+//
+// Register xtype
+Ext.reg('menueditbutton', App.MenuEditButton);
 
 
 /**
@@ -74,12 +102,26 @@ App.DeleteButton = Ext.extend(Ext.Button, {
 // Register xtype
 Ext.reg('deletebutton', App.DeleteButton);
 
+/**
+ * Menu Delete Button
+ */
+App.MenuDeleteButton = Ext.extend(Ext.menu.Item, {
+    text		: Lng.Common.buttonText.btn_delete,
+    iconCls		: 'icon-delete',
+    initComponent:function() {
+        App.MenuDeleteButton.superclass.initComponent.apply(this, arguments);
+    } // eo function initComponent
+}); // eo extend
+//
+// Register xtype
+Ext.reg('menudeletebutton', App.MenuDeleteButton);
+
 
 /**
  * Collapse Button
  */
 App.CollapseButton = Ext.extend(Ext.Button, {
-    text		: Lng.Common.buttonText.btn_collapse,
+    qtip		: Lng.Common.buttonText.btn_collapse,
     iconCls		: 'icon-collapse',
     initComponent:function() {
         App.CollapseButton.superclass.initComponent.apply(this, arguments);
@@ -94,7 +136,9 @@ Ext.reg('collapsebutton', App.CollapseButton);
  * Expand Button
  */
 App.ExpandButton = Ext.extend(Ext.Button, {
-    text		: Lng.Common.buttonText.btn_expand,
+    qtip		: Lng.Common.buttonText.btn_expand,
+    tooltip		: Lng.Common.buttonText.btn_expand,
+    overflowText	: Lng.Common.buttonText.btn_expand,
     iconCls		: 'icon-expand',
     initComponent:function() {
         App.ExpandButton.superclass.initComponent.apply(this, arguments);
@@ -104,6 +148,40 @@ App.ExpandButton = Ext.extend(Ext.Button, {
 // Register xtype
 Ext.reg('expandbutton', App.ExpandButton);
 
+
+/**
+ * Panel
+ */
+App.AbstractPanel = Ext.extend(Ext.Panel, {
+    
+    layout		: 'border',
+    border		: false,
+    
+    initComponent: function() {
+ 
+        // create config object
+        var config = {};
+ 
+        // build config
+        this.buildConfig(config);
+ 
+        // apply config
+        Ext.apply(this, Ext.apply(this.initialConfig, config));
+ 
+        // call parent
+        App.AbstractPanel.superclass.initComponent.call(this);
+ 
+    }, // eo function initComponent
+    
+    buildConfig: function(config) {
+        this.buildItems(config);
+    }, // eo function buildConfig
+    
+    buildItems: function(config) {
+        config.items = undefined;
+    } // eo function buildItems
+    
+});
 
 /**
  * Form Panel
@@ -198,6 +276,7 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
     rootCls		: null,
     useTbar		: false,
     useTools		: true,
+    treeUrl		: null,
     
     initComponent: function() {
 	
@@ -211,7 +290,7 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	Ext.apply(this, Ext.apply(this.initialConfig, config));
 
 	// call parent
-	App.AbstractGridPanel.superclass.initComponent.call(this);
+	App.AbstractTreePanel.superclass.initComponent.call(this);
 	
     }, // eo function initComponent
     
@@ -247,21 +326,61 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	    url		    : this.treeUrl,
 	    preloadChildren : true,
 	    listeners	    : {
-		beforeload:{scope:this, fn:function(loader, node) {
+		loadexception: this.onLoadException.createDelegate(this),
+		beforeload: {scope: this, fn: function(loader, node) {
 		    loader.baseParams.path = this.getPath(node);
 		}}
 	    }
 	});
 	
     }, // eo function buildLoader
+    
+    onLoadException: function (loader, node, response) {
+	if (response.statusText == 'error') {
+	    this.onFailure(response.responseText, response.statusText + ' ' + response.status);
+	} else {
+	    this.onFailure(Ext.decode(response.responseText).errormsg);
+	}
+    }, // eo function onLoadException 
+    
+    /**
+     * returns path of node
+     * @private
+     */
+    getPath: function(node) {
+	
+	var path, p, a;
+
+	// get path for non-root node
+	if(node !== this.root) {
+	    p = node.parentNode;
+	    a = [node.text];
+	    while(p && p !== this.root) {
+		a.unshift(p.text);
+		p = p.parentNode;
+	    }
+	    a.unshift(this.root.attributes.path || '');
+	    path = a.join(this.pathSeparator);
+	}
+
+	// path for root node is it's path attribute
+	else {
+	    path = node.attributes.path || '';
+	}
+
+	// a little bit of security: strip leading / or .
+	// full path security checking has to be implemented on server
+	path = path.replace(/^[\/\.]*/, '');
+	return path;
+    }, // eo function getPath
         
     buildListeners: function(config) {
 	
 	config.listeners = {
-	    beforenodedrop  : { scope: this, fn: this.onBeforeNodeDrop },
-	    movenode	    : { scope: this, fn: this.onMoveNode },
-	    click	    : { scope: this, fn: this.onClick },
-	    dblclick	    : { scope: this, fn: this.onDblClick }
+	    beforenodedrop  : {scope: this, fn: this.onBeforeNodeDrop},
+	    movenode	    : {scope: this, fn: this.onMoveNode},
+	    click	    : {scope: this, fn: this.onClick},
+	    dblclick	    : {scope: this, fn: this.onDblClick}
 	};
 	
     }, // eo function buildLoader
@@ -274,15 +393,15 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
             	text	    : Lng.Common.buttonText.btn_menu,
 		ref	    : '../btn_menu',
             	menu: [{
-		    xtype   : 'addbutton',
+		    xtype   : 'menuaddbutton',
 		    scope   : this,
 		    handler : this.onAdd
 		},{
-		    xtype   : 'editbutton',
+		    xtype   : 'menueditbutton',
 		    scope   : this,
 		    handler : this.onEdit
 		},{
-		    xtype   : 'addbutton',
+		    xtype   : 'menudeletebutton',
 		    scope   : this,
 		    handler : this.onDelete
 		}]
@@ -304,7 +423,24 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	} else {
 	    config.tbar = undefined;
 	}
-    }
+    },
+    
+    onFailure: function(msg, title, fn) {
+	
+	title	= title || Lng.Common.messageText.error;
+	msg	= Ext.util.Format.ellipsis(msg, 2000);
+	
+	Ext.Msg.show({
+	    title	    : title,
+	    msg		    : msg,
+	    modal	    : true,
+	    fixCursor	    : true,
+	    icon	    : Ext.Msg.ERROR,
+	    buttons	    : Ext.Msg.OK,
+	    minWidth	    : 1200 > String(msg).length ? 360 : 800,
+	    fn		    : fn || null
+	});
+    } // eo function onFailure
     
 }); // eo extend
 
@@ -391,8 +527,11 @@ App.AbstractGridPanel = Ext.extend(Ext.grid.GridPanel, {
     
     
     onLoadException: function (dp, type, action, options, response, arg) {
-	var responseObj = Ext.decode(response.responseText);
-	this.onFailure(responseObj.errormsg);
+	if (response.statusText == 'error') {
+	    this.onFailure(response.statusText + ' ' +response.status);
+	} else {
+	    this.onFailure(Ext.decode(response.responseText).errormsg);
+	}
     }, // eo function onLoadException
     
     
