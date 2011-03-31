@@ -3,18 +3,22 @@
 return array
 (
     'auth_user' => array(
-        // не забыть создать Model_Admin_Token
-        'model_name'	    =>  'auth_user',
+        'model_name'	    => 'auth_user',
+        'hash_method'	    => 'md5',
+        'salt_pattern'	    => '1, 3, 6, 9, 12, 15', 
+        'lifetime'	    => 1209600,
+        'session_key'	    => 'auth_user',
+        'autologin_cookie'  => 'auth_user_autologin',
+        'strong_check'	    => FALSE,
+    ),
+    
+    'auth_admin' => array(
+        'model_name'	    =>  'auth_admin',
         'hash_method'	    =>  'sha1',
-        // немного изменим паттерн, хотя это похоже на overkill
-		'salt_pattern'	    => '1, 3, 5, 9, 14, 15, 20, 21, 28, 30',
+	'salt_pattern'	    => '1, 3, 5, 9, 14, 15, 20, 21, 28, 30',
         'lifetime'	    =>  1209600,
-        // другой ключ сессии, чтобы не перепутать
-        'session_key'	    =>  'auth_user',
-        // куки для автологина
-        'autologin_cookie'  =>  'rauthautologin_user',
-        // проверять валидность пользователя при каждом действии
-		// -- вдруг он уже забанен или удален, хотя в сессии все ОК?
+        'session_key'	    =>  'auth_admin',
+        'autologin_cookie'  =>  'auth_admin_autologin',
         'strong_check'	    =>  FALSE,
     ),
 );

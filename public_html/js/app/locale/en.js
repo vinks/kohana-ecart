@@ -5,7 +5,24 @@ Ext.ns('Lng');
 
 Lng.Global = {
     appname : 'Kohana Ecart',
-    vendor  : ''  
+    vendor  : ''
+};
+
+Ext.ns('Lng.Common');
+
+Lng.Common.buttonText = {
+    btn_add		: 'Add',
+    btn_chancel		: 'Chancel',
+    btn_delete		: 'Delete',
+    btn_submit		: 'Submit',
+    btn_collapse	: 'Collapse All',
+    btn_expand		: 'Expand All',
+    btn_menu		: 'Menu'
+};
+
+Lng.Common.messageText = {
+    error		: 'Error',
+    emptygridText	: 'No Record found'
 };
 
 
