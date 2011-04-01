@@ -334,15 +334,7 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	});
 	
     }, // eo function buildLoader
-    
-    onLoadException: function (loader, node, response) {
-	if (response.statusText == 'error') {
-	    this.onFailure(response.responseText, response.statusText + ' ' + response.status);
-	} else {
-	    this.onFailure(Ext.decode(response.responseText).errormsg);
-	}
-    }, // eo function onLoadException 
-    
+
     /**
      * returns path of node
      * @private
@@ -425,6 +417,15 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	}
     },
     
+    onLoadException: function (loader, node, response) {
+	if (response.statusText == 'error') {
+	    var msg = $(response.responseText).find("h1").html();
+	    this.onFailure(msg, response.statusText + ' ' + response.status);
+	} else {
+	    this.onFailure(Ext.decode(response.responseText).errormsg);
+	}
+    }, // eo function onLoadException 
+    
     onFailure: function(msg, title, fn) {
 	
 	title	= title || Lng.Common.messageText.error;
@@ -499,8 +500,7 @@ App.AbstractGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	    scope	    : this,
 	    fields	    : this.buildFields(),
 	    listeners	    : {
-		exception   : this.onLoadException.createDelegate(this),
-		load	    : this.onLoadSuccess.createDelegate(this)
+		exception   : this.onLoadException.createDelegate(this)
 	    }
 	});
     }, // eo function createStore
@@ -528,15 +528,12 @@ App.AbstractGridPanel = Ext.extend(Ext.grid.GridPanel, {
     
     onLoadException: function (dp, type, action, options, response, arg) {
 	if (response.statusText == 'error') {
-	    this.onFailure(response.statusText + ' ' +response.status);
+	    var msg = $(response.responseText).find("h1").html();
+	    this.onFailure(msg, response.statusText + ' ' + response.status);
 	} else {
 	    this.onFailure(Ext.decode(response.responseText).errormsg);
 	}
     }, // eo function onLoadException
-    
-    
-    onLoadSuccess: function(store, records, options) {}, // eo function onLoadSuccess
-    
     
     onFailure: function(msg, title, fn) {
 	

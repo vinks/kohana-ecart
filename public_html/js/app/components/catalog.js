@@ -4,7 +4,7 @@ Ext.namespace('App.Catalog');
  * Catalog Categories Tree
  */
 App.Catalog.Categories = Ext.extend(App.AbstractTreePanel, {
-    treeUrl:		base_url + 'admin_catalogd',
+    treeUrl:		base_url + 'admin_catalog',
     useTbar:		true
 });
 //
