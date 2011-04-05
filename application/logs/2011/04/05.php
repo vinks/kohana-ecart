@@ -17,3 +17,6 @@
 2011-04-05 07:45:35 --- ERROR: ReflectionException [ 0 ]: Method action_create does not exist ~ SYSPATH/classes/kohana/request.php [ 1217 ]
 2011-04-05 07:46:05 --- ERROR: ReflectionException [ 0 ]: Method action_create does not exist ~ SYSPATH/classes/kohana/request.php [ 1217 ]
 2011-04-05 07:46:26 --- ERROR: ReflectionException [ 0 ]: Method action_create does not exist ~ SYSPATH/classes/kohana/request.php [ 1217 ]
+2011-04-05 09:31:27 --- ERROR: ErrorException [ 4 ]: syntax error, unexpected ')' ~ APPPATH/classes/controller/admin/catalog.php [ 31 ]
+2011-04-05 09:31:42 --- ERROR: ErrorException [ 4 ]: syntax error, unexpected ')' ~ APPPATH/classes/controller/admin/catalog.php [ 31 ]
+2011-04-05 09:32:19 --- ERROR: ReflectionException [ 0 ]: Method action_create does not exist ~ SYSPATH/classes/kohana/request.php [ 1217 ]

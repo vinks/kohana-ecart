@@ -545,11 +545,11 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	    // Add new tree node on 'saved' event
 	    this.basicForm.on('saved', function(response)
 	    {
-		this.selModel.selNode.appendChild(this.loader.createNode({
+		/*this.selModel.selNode.appendChild(this.loader.createNode({
 		    id	    : response.data.id,
 		    text    : response.data.name,
 		    loaded  : true
-		}));
+		}));*/
 	    }, this);
 	    
 	    // Show error on 'failure' event

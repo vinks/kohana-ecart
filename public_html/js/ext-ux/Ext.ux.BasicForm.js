@@ -56,7 +56,7 @@ Ext.extend(Ext.ux.BasicForm, Ext.util.Observable, {
 	frame	    : true,
 	autoHeight  : true,
 	labelWidth  : 100,
-	defaults    : { anchor : '-10' },
+	defaults    : { anchor : '-10' }
     }
 
     /**
@@ -207,7 +207,7 @@ Ext.extend(Ext.ux.BasicForm, Ext.util.Observable, {
     } // eo function onSubmit
     
     ,onSuccess: function (form, action) {
-	var responseObj = Ext.decode(response.responseText);
+	var responseObj = Ext.decode(action.response.responseText);
 	
         this.fireEvent('saved', responseObj);
 	

@@ -13,7 +13,7 @@ App.Catalog.Categories = Ext.extend(App.AbstractTreePanel, {
 	
 	// Create Categories Form
 	this.basicForm = new Ext.ux.BasicForm({
-	    submitUrl: base_url + 'admin_catalog/create',
+	    submitUrl: base_url + 'admin_catalog/save',
 	    title: Lng.Catalog.Titles.categories,
 	    buildItems: function() {
 		return [
