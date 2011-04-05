@@ -24,7 +24,9 @@ Lng.Common.buttonText = {
 
 Lng.Common.messageText = {
     error		: 'Error',
-    emptygridText	: 'No Record found'
+    emptygridText	: 'No Record found',
+    emptycombo		: 'Select Value ...',
+    loadingwait		: 'Loading...'
 };
 
 
@@ -117,4 +119,9 @@ Lng.Catalog.Titles = {
     categories		: 'Product Categories',
     products		: 'Products'
     
+};
+
+Lng.Catalog.labelText = {
+    category_name	: 'Name',
+    category_desc	: 'Description'
 };

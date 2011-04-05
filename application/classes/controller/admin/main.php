@@ -16,6 +16,7 @@ class Controller_Admin_Main extends Controller_Admin_Base
 	$this->template->scripts = array(
 	    'js/ext-ux/Ext.ux.panel.DDTabPanel.js',
 	    'js/ext-ux/Ext.ux.TabCloseMenu.js',
+	    'js/ext-ux/Ext.ux.BasicForm.js',
 	    'js/ext-' . $this->extversion . '/examples/ux/TabScrollerMenu.js',
 	    'js/app/functions.js',
 	    'js/app/base.js',

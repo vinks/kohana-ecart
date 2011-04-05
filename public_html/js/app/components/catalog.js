@@ -4,8 +4,34 @@ Ext.namespace('App.Catalog');
  * Catalog Categories Tree
  */
 App.Catalog.Categories = Ext.extend(App.AbstractTreePanel, {
-    treeUrl:		base_url + 'admin_catalog',
-    useTbar:		true
+    treeUrl	    : base_url + 'admin_catalog',
+    useTbar	    : true,
+    formXtype	    : 'catalogcategoriesform',
+
+    
+    initComponent   : function() {
+	
+	// Create Categories Form
+	this.basicForm = new Ext.ux.BasicForm({
+	    submitUrl: base_url + 'admin_catalog/create',
+	    title: Lng.Catalog.Titles.categories,
+	    buildItems: function() {
+		return [
+		    {name: 'name', fieldLabel: Lng.Catalog.labelText.category_name, allowBlank: false},
+		    {name: 'description', fieldLabel: Lng.Catalog.labelText.category_desc, allowBlank: true, xtype: 'textarea'},
+		    {name: 'id', id: 'id', value: 0, xtype: 'hidden'},
+		    {name: 'parent_id',id: 'parent_id', value: 0,  xtype: 'hidden'}
+		];
+	    }
+	});
+	
+	Ext.apply(this, {
+	    plugins : [this.basicForm]
+	});  // eo apply
+	
+	// call parent
+        App.Catalog.Categories.superclass.initComponent.apply(this, arguments);
+    }
 });
 //
 //register xtype

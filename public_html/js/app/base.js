@@ -1,6 +1,161 @@
 Ext.ns('App');
 
 /**
+ * Combobox with population on form load
+ */
+App.PopCombo = Ext.extend(Ext.form.ComboBox, {
+
+    triggerAction	: 'all',
+    mode		: 'local',
+    displayField	: 'name',
+    valueField		: 'id',
+    hiddenName		: 'category',
+							
+    /**
+     * @cfg {Object} paramNames
+     * Defines names that are used for "value" and "records" members 
+     * (defaults to {value:"value", records:"records"})
+     */
+    paramNames		: {
+	value		: 'value',
+	records		: 'records'
+    },
+    
+    initComponent:function() {
+	
+	// create config object
+	var config = {};
+	
+	// build config
+        this.buildConfig(config);
+	
+	// apply config
+        Ext.apply(this, Ext.apply(this.initialConfig, config));
+	
+        App.PopCombo.superclass.initComponent.apply(this, arguments);
+	
+    }, // eo function initComponent
+    
+    buildConfig:function(config) {
+	
+        this.buildStore(config);
+	this.buildListeners(config);
+	
+    }, // eo function buildConfig
+    
+    buildStore: function(config) {
+	config.store = new Ext.data.SimpleStore({
+	    fields: this.buildFields()
+	});
+    }, // eo function createStore
+    
+    buildFields: function() {
+        return [];
+    }, // eo function buildFields
+    
+    buildListeners: function(config) {
+	
+	config.listeners = {
+	    select  : {scope: this, fn: this.onSelect}
+	};
+	
+    }, // eo function buildListeners
+    
+    onSelect: function(combo, record, index) {
+	
+    }, // eo function onSelect
+ 
+    setValue: function(value) {
+	
+	var val = value;
+	
+	if ('object' === typeof value && '[object Object]' === Object.prototype.toString.call(value)) {
+	    if(undefined !== value[this.paramNames['records']]) {
+		this.store.loadData(value[this.paramNames['records']]);
+	    }
+	    val = value[this.paramNames['value']];
+	}
+	
+	App.PopCombo.superclass.setValue.call(this, val);
+	
+    } // eo function setValue
+ 
+}); // eo extend
+//
+// register xtype
+Ext.reg('popcombo', App.PopCombo); 
+
+
+/**
+ * Combobox with remote store
+ */
+App.RemoteCombo = Ext.extend(Ext.form.ComboBox, {
+    
+    mode		: 'remote',
+    minChars		: 0,
+    valueField		: 'id',  
+    displayField	: 'name',  
+    hiddenName		: '_id',
+    emptyText		: Lng.Common.messageText.emptycombo,
+    triggerAction	: 'all',
+    forceSelection	: true,
+    
+    initComponent:function() {
+	
+	// create config object
+	var config = {};
+	
+	// build config
+        this.buildConfig(config);
+	
+	// apply config
+        Ext.apply(this, Ext.apply(this.initialConfig, config));
+	
+        App.RemoteCombo.superclass.initComponent.apply(this, arguments);
+	
+    }, // eo function initComponent
+    
+    buildConfig:function(config) {
+	
+        this.buildStore(config);
+	this.buildListeners(config);
+	
+    }, // eo function buildConfig
+    
+    buildStore: function(config) {
+	config.store = new Ext.data.JsonStore({
+	    totalProperty   : 'total',
+	    root	    : 'data',
+	    url		    : this.comboUrl,
+	    scope	    : this,
+	    fields	    : this.buildFields(),
+	    listeners	    : {
+		exception   : this.onLoadException.createDelegate(this)
+	    }
+	});
+    }, // eo function createStore
+    
+    buildFields: function() {
+        return [];
+    }, // eo function buildFields
+    
+    buildListeners: function(config) {
+	
+	config.listeners = {
+	    select  : {scope: this, fn: this.onSelect}
+	};
+	
+    }, // eo function buildListeners
+    
+    onSelect: function(combo, record, index) {}
+    
+}); // eo extend
+//
+// Register xtype
+Ext.reg('remotecombo', App.RemoteCombo);
+
+
+/**
  * Submit Button
  */
 App.SubmitButton = Ext.extend(Ext.Button, {
@@ -73,6 +228,7 @@ App.EditButton = Ext.extend(Ext.Button, {
 // Register xtype
 Ext.reg('editbutton', App.EditButton);
 
+
 /**
  * Menu Edit Button
  */
@@ -101,6 +257,7 @@ App.DeleteButton = Ext.extend(Ext.Button, {
 //
 // Register xtype
 Ext.reg('deletebutton', App.DeleteButton);
+
 
 /**
  * Menu Delete Button
@@ -183,87 +340,6 @@ App.AbstractPanel = Ext.extend(Ext.Panel, {
     
 });
 
-/**
- * Form Panel
- */
-App.AbstractFormPanel = Ext.extend(Ext.form.FormPanel, {
-    
-    defaultType		: 'textfield',
-    frame		: true,
-    width		: 300,
-    height		: 200,
-    labelWidth		: 75,
-    submitUrl		: null,
-
-
-    initComponent:function() {
-
-	// create config object
-	var config = {
-	    defaults:{anchor:'-10'}
-	};
-
-	// build config
-	this.buildConfig(config);
-
-	// apply config
-	Ext.apply(this, Ext.apply(this.initialConfig, config));
-
-	// call parent
-	App.AbstractFormPanel.superclass.initComponent.call(this);
-
-    }, // eo function initComponent
-
-
-    buildConfig:function(config) {
-	
-	this.buildItems(config);
-	this.buildButtons(config);
-	this.buildTbar(config);
-	this.buildBbar(config);
-	
-    }, // eo function buildConfig
-
-
-    buildItems:function(config) {
-	config.items = undefined;
-    }, // eo function buildItems
-
-
-    buildButtons:function(config) {
-	config.buttons = [{
-	    xtype	: 'submitbutton',
-	    scope	: this,
-	    handler	: this.onSubmit
-	},{
-	    xtype	: 'cancelbutton',
-	    scope	: this,
-	    handler	: this.onCancel
-	}];
-    }, // eo function buildButtons
-
-
-    buildTbar:function(config) {
-	config.tbar = undefined;
-    }, // eo function buildTbar
-
-
-    buildBbar:function(config) {
-	config.bbar = undefined;
-    }, // eo function buildBbar
-
-
-    onSubmit:function() {
-	Ext.MessageBox.alert('Submit', this.submitUrl);
-    }, // eo function onSubmit
-
-
-    onCancel:function() {
-	this.el.mask('This form is canceled');
-    } // eo function onCancel
- 
-}); // eo extend App.AbstractFormPanel
-
 
 /**
  * Tree Panel
@@ -277,6 +353,7 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
     useTbar		: false,
     useTools		: true,
     treeUrl		: null,
+    formXtype		: null,
     
     initComponent: function() {
 	
@@ -375,7 +452,7 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	    dblclick	    : {scope: this, fn: this.onDblClick}
 	};
 	
-    }, // eo function buildLoader
+    }, // eo function buildListeners
     
     buildTbar: function(config) {
 	if (this.useTbar)
@@ -441,7 +518,109 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	    minWidth	    : 1200 > String(msg).length ? 360 : 800,
 	    fn		    : fn || null
 	});
-    } // eo function onFailure
+    }, // eo function onFailure
+    
+    onAdd: function(btn) {
+	
+	// Check if Ext.ux.BasicForm
+	if (this.basicForm)
+	{
+	    // Show form window
+	    this.basicForm.show(btn.getEl());
+	    
+	    // Center form window on browser window resize
+	    Ext.EventManager.onWindowResize(function(){
+		this.basicForm.window.center();
+	    });
+	    
+	    // Set parent_id
+	    if (this.getSelectionModel().getSelectedNode())
+	    {
+		this.basicForm.form.getForm().setValues({
+		    'id'	: 0,
+		    'parent_id'	: this.getSelectionModel().getSelectedNode().attributes.id
+		});
+	    }
+	    
+	    // Add new tree node on 'saved' event
+	    this.basicForm.on('saved', function(response)
+	    {
+		this.selModel.selNode.appendChild(this.loader.createNode({
+		    id	    : response.data.id,
+		    text    : response.data.name,
+		    loaded  : true
+		}));
+	    }, this);
+	    
+	    // Show error on 'failure' event
+	    this.basicForm.on('failure', function(response)
+	    {	
+		if (response.statusText == 'error') {
+		    var msg = $(response.responseText).find("h1").html();
+		    this.onFailure(msg, response.statusText + ' ' + response.status);
+		} else {
+		    this.onFailure(Ext.decode(response.responseText).errormsg);
+		}
+	    }, this);
+	    
+	}
+    }, // eo function onAdd
+    
+    onEdit: function(btn) {
+	
+	// Check if Ext.ux.BasicForm
+	if (this.basicForm)
+	{
+	    // If edited node been selected
+	    if (this.getSelectionModel().getSelectedNode())
+	    {
+		// Show form window
+		this.basicForm.show(btn.getEl());
+
+		// Center form window on browser window resize
+		Ext.EventManager.onWindowResize(function(){
+		    this.basicForm.window.center();
+		});
+
+		// Set current id
+		this.basicForm.form.getForm().setValues({
+		    'id'	: this.getSelectionModel().getSelectedNode().attributes.id,
+		    'parent_id'	: 0
+		});
+		
+		// Populate form with loaded data
+		this.basicForm.form.getForm().load({
+		    url	    : this.treeUrl + '/get',
+		    params  : { id: node.attributes.id },
+		    method  : 'post',
+		    waitMsg : Lng.Common.messageText.loadingwait
+		});
+
+		// Add new tree node on 'saved' event
+		this.basicForm.on('saved', function(response)
+		{
+		    this.selModel.selNode.appendChild(this.loader.createNode({
+			id	    : response.data.id,
+			text    : response.data.name,
+			loaded  : true
+		    }));
+		}, this);
+
+		// Show error on 'failure' event
+		this.basicForm.on('failure', function(response)
+		{	
+		    if (response.statusText == 'error') {
+			var msg = $(response.responseText).find("h1").html();
+			this.onFailure(msg, response.statusText + ' ' + response.status);
+		    } else {
+			this.onFailure(Ext.decode(response.responseText).errormsg);
+		    }
+		}, this);
+	    }
+	    
+	}
+	
+    } // eo function onEdit
     
 }); // eo extend
 
@@ -524,7 +703,6 @@ App.AbstractGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	    emptyText	    : Lng.Common.messageText.emptygridText
 	});
     }, // eo function buildView
-    
     
     onLoadException: function (dp, type, action, options, response, arg) {
 	if (response.statusText == 'error') {
