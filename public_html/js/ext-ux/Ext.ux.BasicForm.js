@@ -109,7 +109,7 @@ Ext.extend(Ext.ux.BasicForm, Ext.util.Observable, {
     ,init:function(grid) {
 	// initial (re)configuration
 	this.reconfigure();
-	this.addEvents('saved', 'chancel', 'failure');
+	
     } // eo function init
 	
     /**
@@ -174,24 +174,6 @@ Ext.extend(Ext.ux.BasicForm, Ext.util.Observable, {
     }
 	
     /**
-     * Destroys components we've created
-     * @private
-     */
-    ,onDestroy:function() {
-	if(this.window) {
-	    this.window.destroy();
-	    this.window = null;
-	    this.form = null;
-	}
-	else if(this.form) {
-	    if('function' === typeof this.form.destroy) {
-		this.form.destroy();
-	    }
-	    this.form = null;
-	}
-    } // eo function onDestroy
-	
-    /**
      * Submit button click handler
      */
     ,onSubmit: function() {
@@ -241,7 +223,28 @@ Ext.extend(Ext.ux.BasicForm, Ext.util.Observable, {
 	// create new form configuration
 	// form will be instantiated and rendered in show function
 	this.createFormConfig();
+	
+	this.addEvents('saved', 'failure');
     } // eo function reconfigure
+    
+    /**
+     * Destroys components we've created
+     * @private
+     */
+    ,onDestroy:function() {
+	
+	if(this.window) {
+	    this.window.destroy();
+	    this.window = null;
+	    this.form = null;
+	}
+	else if(this.form) {
+	    if('function' === typeof this.form.destroy) {
+		this.form.destroy();
+	    }
+	    this.form = null;
+	}
+    } // eo function onDestroy
     
 
     ,getPanel:function() {

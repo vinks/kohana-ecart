@@ -6,7 +6,7 @@ Ext.namespace('App.Catalog');
 App.Catalog.Categories = Ext.extend(App.AbstractTreePanel, {
     treeUrl	    : base_url + 'admin_catalog',
     useTbar	    : true,
-    formXtype	    : 'catalogcategoriesform',
+    rootText	    : Lng.Catalog.Titles.categories,
 
     
     initComponent   : function() {

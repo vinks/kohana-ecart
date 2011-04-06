@@ -346,14 +346,16 @@ App.AbstractPanel = Ext.extend(Ext.Panel, {
  */
 App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
     
-    rootId		: 1,
+    rootId		: 'root',
     rootText		: 'Tree Root',
+    rootCls		: 'folder',
     rootVisible		: true,
-    rootCls		: null,
+    
     useTbar		: false,
     useTools		: true,
     treeUrl		: null,
-    formXtype		: null,
+    
+    lines		: true,
     
     initComponent: function() {
 	
@@ -371,10 +373,6 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	
     }, // eo function initComponent
     
-    onRender: function() {	
-	App.AbstractTreePanel.superclass.onRender.apply(this, arguments);
-    }, // eo function onRender
-    
     buildConfig: function(config) {
 	
         this.buildRoot(config);
@@ -390,9 +388,8 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	    id		    : this.rootId,
 	    expanded	    : true,
 	    text	    : this.rootText,
-	    hidden	    : this.rootVisible,
 	    iconCls	    : this.rootCls,
-	    allowDrag	    : false
+	    draggable	    : false
 	});
 	
     }, // eo function buildRoot
@@ -417,7 +414,7 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
      * @private
      */
     getPath: function(node) {
-	
+
 	var path, p, a;
 
 	// get path for non-root node
@@ -453,6 +450,14 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	};
 	
     }, // eo function buildListeners
+    
+    onClick: function(node, event) {
+	if (this.useTbar)
+	{
+	    var menu = this.btn_menu.menu.items;
+	    
+	}
+    },
     
     buildTbar: function(config) {
 	if (this.useTbar)
@@ -545,11 +550,16 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	    // Add new tree node on 'saved' event
 	    this.basicForm.on('saved', function(response)
 	    {
-		/*this.selModel.selNode.appendChild(this.loader.createNode({
+		var parent = this.getNodeById(response.data.parent_id) || this.getRootNode();
+		
+		parent.appendChild(this.loader.createNode({
 		    id	    : response.data.id,
 		    text    : response.data.name,
 		    loaded  : true
-		}));*/
+		}));
+		
+		this.basicForm.purgeListeners();
+		
 	    }, this);
 	    
 	    // Show error on 'failure' event
@@ -561,6 +571,9 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 		} else {
 		    this.onFailure(Ext.decode(response.responseText).errormsg);
 		}
+		
+		this.basicForm.purgeListeners();
+		
 	    }, this);
 	    
 	}
@@ -581,12 +594,8 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 		Ext.EventManager.onWindowResize(function(){
 		    this.basicForm.window.center();
 		});
-
-		// Set current id
-		this.basicForm.form.getForm().setValues({
-		    'id'	: this.getSelectionModel().getSelectedNode().attributes.id,
-		    'parent_id'	: 0
-		});
+		
+		var node = this.getSelectionModel().getSelectedNode();
 		
 		// Populate form with loaded data
 		this.basicForm.form.getForm().load({
@@ -597,13 +606,8 @@ App.AbstractTreePanel = Ext.extend(Ext.tree.TreePanel, {
 		});
 
 		// Add new tree node on 'saved' event
-		this.basicForm.on('saved', function(response)
-		{
-		    this.selModel.selNode.appendChild(this.loader.createNode({
-			id	    : response.data.id,
-			text    : response.data.name,
-			loaded  : true
-		    }));
+		this.basicForm.on('saved', function(response) {
+		    node.setText(response.data.name);
 		}, this);
 
 		// Show error on 'failure' event
